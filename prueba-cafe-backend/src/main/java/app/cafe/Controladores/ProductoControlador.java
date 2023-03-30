@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.cafe.Entidades.Producto;
 import app.cafe.Servicios.ProductoServicio;
 
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api")
 public class ProductoControlador {
@@ -49,10 +51,9 @@ public class ProductoControlador {
     return new ResponseEntity<Producto>(productoModificado,HttpStatus.OK);
   }
 
-  @CrossOrigin(origins = "http://localhost:3000")
-  @DeleteMapping("/productos/{id}")
-  public ResponseEntity<HttpStatus> eliminarProducto(@PathVariable Long id){
+  @DeleteMapping("/borrar-productos/{id}")
+  public ResponseEntity<String> eliminarProducto(@PathVariable Long id){
     servicio.borrarProducto(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<String>("Se eliminó el producto",HttpStatus.NO_CONTENT);
   }
 }
